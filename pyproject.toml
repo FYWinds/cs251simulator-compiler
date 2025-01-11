@@ -1,0 +1,18 @@
+[project]
+name = "cs251simulator-compiler"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "ply>=3.11",
+    "pydantic>=2.10.5",
+    "typer>=0.15.1",
+]
+
+[project.scripts]
+cs251simulator-compiler = "cs251simulator_compiler:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

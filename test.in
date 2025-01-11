@@ -1,0 +1,13 @@
+.memory
+M[208] = 10101
+M[216] = 123
+.registers
+X9 = 8
+X3 = 15
+.instructions
+ADD X9, X3, X2
+ADDI X3, X9, #5
+LDUR X3, [X9, #8]
+STUR X3, [X9, #8]
+B #-4
+CBNZ X3, #-4

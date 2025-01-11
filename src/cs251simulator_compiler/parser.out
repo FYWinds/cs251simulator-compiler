@@ -1,0 +1,392 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> program
+Rule 1     program -> memory_section register_section instruction_section
+Rule 2     memory_section -> MEMORY memory_assignments
+Rule 3     memory_assignments -> memory_assignments memory_assignment
+Rule 4     memory_assignments -> memory_assignment
+Rule 5     memory_assignment -> M LBRACKET NUMBER RBRACKET ASSIGN NUMBER
+Rule 6     register_section -> REGISTERS register_assignments
+Rule 7     register_assignments -> register_assignments register_assignment
+Rule 8     register_assignments -> register_assignment
+Rule 9     register_assignment -> REG ASSIGN NUMBER
+Rule 10    instruction_section -> INSTRUCTIONS instructions
+Rule 11    instructions -> instructions instruction
+Rule 12    instructions -> instruction
+Rule 13    instruction -> INST instruction_args
+Rule 14    instruction_args -> instruction_args COMMA instruction_arg
+Rule 15    instruction_args -> instruction_arg
+Rule 16    instruction_arg -> REG
+Rule 17    instruction_arg -> LBRACKET REG COMMA IMM RBRACKET
+Rule 18    instruction_arg -> IMM
+
+Terminals, with rules where they appear
+
+ASSIGN               : 5 9
+COMMA                : 14 17
+IMM                  : 17 18
+INST                 : 13
+INSTRUCTIONS         : 10
+LBRACKET             : 5 17
+M                    : 5
+MEMORY               : 2
+NUMBER               : 5 5 9
+RBRACKET             : 5 17
+REG                  : 9 16 17
+REGISTERS            : 6
+error                : 
+
+Nonterminals, with rules where they appear
+
+instruction          : 11 12
+instruction_arg      : 14 15
+instruction_args     : 13 14
+instruction_section  : 1
+instructions         : 10 11
+memory_assignment    : 3 4
+memory_assignments   : 2 3
+memory_section       : 1
+program              : 0
+register_assignment  : 7 8
+register_assignments : 6 7
+register_section     : 1
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . program
+    (1) program -> . memory_section register_section instruction_section
+    (2) memory_section -> . MEMORY memory_assignments
+
+    MEMORY          shift and go to state 3
+
+    program                        shift and go to state 1
+    memory_section                 shift and go to state 2
+
+state 1
+
+    (0) S' -> program .
+
+
+
+state 2
+
+    (1) program -> memory_section . register_section instruction_section
+    (6) register_section -> . REGISTERS register_assignments
+
+    REGISTERS       shift and go to state 5
+
+    register_section               shift and go to state 4
+
+state 3
+
+    (2) memory_section -> MEMORY . memory_assignments
+    (3) memory_assignments -> . memory_assignments memory_assignment
+    (4) memory_assignments -> . memory_assignment
+    (5) memory_assignment -> . M LBRACKET NUMBER RBRACKET ASSIGN NUMBER
+
+    M               shift and go to state 8
+
+    memory_assignments             shift and go to state 6
+    memory_assignment              shift and go to state 7
+
+state 4
+
+    (1) program -> memory_section register_section . instruction_section
+    (10) instruction_section -> . INSTRUCTIONS instructions
+
+    INSTRUCTIONS    shift and go to state 10
+
+    instruction_section            shift and go to state 9
+
+state 5
+
+    (6) register_section -> REGISTERS . register_assignments
+    (7) register_assignments -> . register_assignments register_assignment
+    (8) register_assignments -> . register_assignment
+    (9) register_assignment -> . REG ASSIGN NUMBER
+
+    REG             shift and go to state 13
+
+    register_assignments           shift and go to state 11
+    register_assignment            shift and go to state 12
+
+state 6
+
+    (2) memory_section -> MEMORY memory_assignments .
+    (3) memory_assignments -> memory_assignments . memory_assignment
+    (5) memory_assignment -> . M LBRACKET NUMBER RBRACKET ASSIGN NUMBER
+
+    REGISTERS       reduce using rule 2 (memory_section -> MEMORY memory_assignments .)
+    M               shift and go to state 8
+
+    memory_assignment              shift and go to state 14
+
+state 7
+
+    (4) memory_assignments -> memory_assignment .
+
+    M               reduce using rule 4 (memory_assignments -> memory_assignment .)
+    REGISTERS       reduce using rule 4 (memory_assignments -> memory_assignment .)
+
+
+state 8
+
+    (5) memory_assignment -> M . LBRACKET NUMBER RBRACKET ASSIGN NUMBER
+
+    LBRACKET        shift and go to state 15
+
+
+state 9
+
+    (1) program -> memory_section register_section instruction_section .
+
+    $end            reduce using rule 1 (program -> memory_section register_section instruction_section .)
+
+
+state 10
+
+    (10) instruction_section -> INSTRUCTIONS . instructions
+    (11) instructions -> . instructions instruction
+    (12) instructions -> . instruction
+    (13) instruction -> . INST instruction_args
+
+    INST            shift and go to state 18
+
+    instructions                   shift and go to state 16
+    instruction                    shift and go to state 17
+
+state 11
+
+    (6) register_section -> REGISTERS register_assignments .
+    (7) register_assignments -> register_assignments . register_assignment
+    (9) register_assignment -> . REG ASSIGN NUMBER
+
+    INSTRUCTIONS    reduce using rule 6 (register_section -> REGISTERS register_assignments .)
+    REG             shift and go to state 13
+
+    register_assignment            shift and go to state 19
+
+state 12
+
+    (8) register_assignments -> register_assignment .
+
+    REG             reduce using rule 8 (register_assignments -> register_assignment .)
+    INSTRUCTIONS    reduce using rule 8 (register_assignments -> register_assignment .)
+
+
+state 13
+
+    (9) register_assignment -> REG . ASSIGN NUMBER
+
+    ASSIGN          shift and go to state 20
+
+
+state 14
+
+    (3) memory_assignments -> memory_assignments memory_assignment .
+
+    M               reduce using rule 3 (memory_assignments -> memory_assignments memory_assignment .)
+    REGISTERS       reduce using rule 3 (memory_assignments -> memory_assignments memory_assignment .)
+
+
+state 15
+
+    (5) memory_assignment -> M LBRACKET . NUMBER RBRACKET ASSIGN NUMBER
+
+    NUMBER          shift and go to state 21
+
+
+state 16
+
+    (10) instruction_section -> INSTRUCTIONS instructions .
+    (11) instructions -> instructions . instruction
+    (13) instruction -> . INST instruction_args
+
+    $end            reduce using rule 10 (instruction_section -> INSTRUCTIONS instructions .)
+    INST            shift and go to state 18
+
+    instruction                    shift and go to state 22
+
+state 17
+
+    (12) instructions -> instruction .
+
+    INST            reduce using rule 12 (instructions -> instruction .)
+    $end            reduce using rule 12 (instructions -> instruction .)
+
+
+state 18
+
+    (13) instruction -> INST . instruction_args
+    (14) instruction_args -> . instruction_args COMMA instruction_arg
+    (15) instruction_args -> . instruction_arg
+    (16) instruction_arg -> . REG
+    (17) instruction_arg -> . LBRACKET REG COMMA IMM RBRACKET
+    (18) instruction_arg -> . IMM
+
+    REG             shift and go to state 25
+    LBRACKET        shift and go to state 26
+    IMM             shift and go to state 27
+
+    instruction_args               shift and go to state 23
+    instruction_arg                shift and go to state 24
+
+state 19
+
+    (7) register_assignments -> register_assignments register_assignment .
+
+    REG             reduce using rule 7 (register_assignments -> register_assignments register_assignment .)
+    INSTRUCTIONS    reduce using rule 7 (register_assignments -> register_assignments register_assignment .)
+
+
+state 20
+
+    (9) register_assignment -> REG ASSIGN . NUMBER
+
+    NUMBER          shift and go to state 28
+
+
+state 21
+
+    (5) memory_assignment -> M LBRACKET NUMBER . RBRACKET ASSIGN NUMBER
+
+    RBRACKET        shift and go to state 29
+
+
+state 22
+
+    (11) instructions -> instructions instruction .
+
+    INST            reduce using rule 11 (instructions -> instructions instruction .)
+    $end            reduce using rule 11 (instructions -> instructions instruction .)
+
+
+state 23
+
+    (13) instruction -> INST instruction_args .
+    (14) instruction_args -> instruction_args . COMMA instruction_arg
+
+    INST            reduce using rule 13 (instruction -> INST instruction_args .)
+    $end            reduce using rule 13 (instruction -> INST instruction_args .)
+    COMMA           shift and go to state 30
+
+
+state 24
+
+    (15) instruction_args -> instruction_arg .
+
+    COMMA           reduce using rule 15 (instruction_args -> instruction_arg .)
+    INST            reduce using rule 15 (instruction_args -> instruction_arg .)
+    $end            reduce using rule 15 (instruction_args -> instruction_arg .)
+
+
+state 25
+
+    (16) instruction_arg -> REG .
+
+    COMMA           reduce using rule 16 (instruction_arg -> REG .)
+    INST            reduce using rule 16 (instruction_arg -> REG .)
+    $end            reduce using rule 16 (instruction_arg -> REG .)
+
+
+state 26
+
+    (17) instruction_arg -> LBRACKET . REG COMMA IMM RBRACKET
+
+    REG             shift and go to state 31
+
+
+state 27
+
+    (18) instruction_arg -> IMM .
+
+    COMMA           reduce using rule 18 (instruction_arg -> IMM .)
+    INST            reduce using rule 18 (instruction_arg -> IMM .)
+    $end            reduce using rule 18 (instruction_arg -> IMM .)
+
+
+state 28
+
+    (9) register_assignment -> REG ASSIGN NUMBER .
+
+    REG             reduce using rule 9 (register_assignment -> REG ASSIGN NUMBER .)
+    INSTRUCTIONS    reduce using rule 9 (register_assignment -> REG ASSIGN NUMBER .)
+
+
+state 29
+
+    (5) memory_assignment -> M LBRACKET NUMBER RBRACKET . ASSIGN NUMBER
+
+    ASSIGN          shift and go to state 32
+
+
+state 30
+
+    (14) instruction_args -> instruction_args COMMA . instruction_arg
+    (16) instruction_arg -> . REG
+    (17) instruction_arg -> . LBRACKET REG COMMA IMM RBRACKET
+    (18) instruction_arg -> . IMM
+
+    REG             shift and go to state 25
+    LBRACKET        shift and go to state 26
+    IMM             shift and go to state 27
+
+    instruction_arg                shift and go to state 33
+
+state 31
+
+    (17) instruction_arg -> LBRACKET REG . COMMA IMM RBRACKET
+
+    COMMA           shift and go to state 34
+
+
+state 32
+
+    (5) memory_assignment -> M LBRACKET NUMBER RBRACKET ASSIGN . NUMBER
+
+    NUMBER          shift and go to state 35
+
+
+state 33
+
+    (14) instruction_args -> instruction_args COMMA instruction_arg .
+
+    COMMA           reduce using rule 14 (instruction_args -> instruction_args COMMA instruction_arg .)
+    INST            reduce using rule 14 (instruction_args -> instruction_args COMMA instruction_arg .)
+    $end            reduce using rule 14 (instruction_args -> instruction_args COMMA instruction_arg .)
+
+
+state 34
+
+    (17) instruction_arg -> LBRACKET REG COMMA . IMM RBRACKET
+
+    IMM             shift and go to state 36
+
+
+state 35
+
+    (5) memory_assignment -> M LBRACKET NUMBER RBRACKET ASSIGN NUMBER .
+
+    M               reduce using rule 5 (memory_assignment -> M LBRACKET NUMBER RBRACKET ASSIGN NUMBER .)
+    REGISTERS       reduce using rule 5 (memory_assignment -> M LBRACKET NUMBER RBRACKET ASSIGN NUMBER .)
+
+
+state 36
+
+    (17) instruction_arg -> LBRACKET REG COMMA IMM . RBRACKET
+
+    RBRACKET        shift and go to state 37
+
+
+state 37
+
+    (17) instruction_arg -> LBRACKET REG COMMA IMM RBRACKET .
+
+    COMMA           reduce using rule 17 (instruction_arg -> LBRACKET REG COMMA IMM RBRACKET .)
+    INST            reduce using rule 17 (instruction_arg -> LBRACKET REG COMMA IMM RBRACKET .)
+    $end            reduce using rule 17 (instruction_arg -> LBRACKET REG COMMA IMM RBRACKET .)
+
