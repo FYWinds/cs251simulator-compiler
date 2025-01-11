@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = "ASSIGN COMMA IMM INST INSTRUCTIONS LBRACKET MEMORY NUMBER RBRACKET REG REGISTERS\n    program : memory_section register_section instruction_section\n    \n    memory_section : MEMORY memory_assignments\n    \n    memory_assignments : memory_assignments memory_assignment\n                       | memory_assignment\n    \n    memory_assignment : 'M' LBRACKET NUMBER RBRACKET ASSIGN NUMBER\n    \n    register_section : REGISTERS register_assignments\n    \n    register_assignments : register_assignments register_assignment\n                         | register_assignment\n    \n    register_assignment : REG ASSIGN NUMBER\n    \n    instruction_section : INSTRUCTIONS instructions\n    \n    instructions : instructions instruction\n                 | instruction\n    \n    instruction : INST instruction_args\n    \n    instruction_args : instruction_args COMMA instruction_arg\n                     | instruction_arg\n    \n    instruction_arg : REG\n                    | LBRACKET REG COMMA IMM RBRACKET\n                    | IMM\n    "
+_lr_signature = "ASSIGN COMMA IMM INST INSTRUCTIONS LBRACKET MEMORY NUMBER RBRACKET REG REGISTERS\n    program : memory_section register_section instruction_section\n    \n    memory_section : MEMORY memory_assignments\n                   | MEMORY\n    \n    memory_assignments : memory_assignments memory_assignment\n                       | memory_assignment\n    \n    memory_assignment : 'M' LBRACKET NUMBER RBRACKET ASSIGN NUMBER\n    \n    register_section : REGISTERS register_assignments\n                     | REGISTERS\n    \n    register_assignments : register_assignments register_assignment\n                         | register_assignment\n    \n    register_assignment : REG ASSIGN NUMBER\n    \n    instruction_section : INSTRUCTIONS instructions\n    \n    instructions : instructions instruction\n                 | instruction\n    \n    instruction : INST instruction_args\n    \n    instruction_args : instruction_args COMMA instruction_arg\n                     | instruction_arg\n    \n    instruction_arg : REG\n                    | LBRACKET REG COMMA IMM RBRACKET\n                    | IMM\n    "
     
-_lr_action_items = {'MEMORY':([0,],[3,]),'$end':([1,9,16,17,22,23,24,25,27,33,37,],[0,-1,-10,-12,-11,-13,-15,-16,-18,-14,-17,]),'REGISTERS':([2,6,7,14,35,],[5,-2,-4,-3,-5,]),'M':([3,6,7,14,35,],[8,8,-4,-3,-5,]),'INSTRUCTIONS':([4,11,12,19,28,],[10,-6,-8,-7,-9,]),'REG':([5,11,12,18,19,26,28,30,],[13,13,-8,25,-7,31,-9,25,]),'LBRACKET':([8,18,30,],[15,26,26,]),'INST':([10,16,17,22,23,24,25,27,33,37,],[18,18,-12,-11,-13,-15,-16,-18,-14,-17,]),'ASSIGN':([13,29,],[20,32,]),'NUMBER':([15,20,32,],[21,28,35,]),'IMM':([18,30,34,],[27,27,36,]),'RBRACKET':([21,36,],[29,37,]),'COMMA':([23,24,25,27,31,33,37,],[30,-15,-16,-18,34,-14,-17,]),}
+_lr_action_items = {'MEMORY':([0,],[3,]),'$end':([1,9,16,17,22,23,24,25,27,33,37,],[0,-1,-12,-14,-13,-15,-17,-18,-20,-16,-19,]),'REGISTERS':([2,3,6,7,14,35,],[5,-3,-2,-5,-4,-6,]),'M':([3,6,7,14,35,],[8,8,-5,-4,-6,]),'INSTRUCTIONS':([4,5,11,12,19,28,],[10,-8,-7,-10,-9,-11,]),'REG':([5,11,12,18,19,26,28,30,],[13,13,-10,25,-9,31,-11,25,]),'LBRACKET':([8,18,30,],[15,26,26,]),'INST':([10,16,17,22,23,24,25,27,33,37,],[18,18,-14,-13,-15,-17,-18,-20,-16,-19,]),'ASSIGN':([13,29,],[20,32,]),'NUMBER':([15,20,32,],[21,28,35,]),'IMM':([18,30,34,],[27,27,36,]),'RBRACKET':([21,36,],[29,37,]),'COMMA':([23,24,25,27,31,33,37,],[30,-17,-18,-20,34,-16,-19,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -27,22 +27,24 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> program","S'",1,None,None,None),
-  ('program -> memory_section register_section instruction_section','program',3,'p_program','parse.py',93),
-  ('memory_section -> MEMORY memory_assignments','memory_section',2,'p_memory_section','parse.py',100),
-  ('memory_assignments -> memory_assignments memory_assignment','memory_assignments',2,'p_memory_assignments','parse.py',107),
-  ('memory_assignments -> memory_assignment','memory_assignments',1,'p_memory_assignments','parse.py',108),
-  ('memory_assignment -> M LBRACKET NUMBER RBRACKET ASSIGN NUMBER','memory_assignment',6,'p_memory_assignment','parse.py',118),
-  ('register_section -> REGISTERS register_assignments','register_section',2,'p_register_section','parse.py',125),
-  ('register_assignments -> register_assignments register_assignment','register_assignments',2,'p_register_assignments','parse.py',132),
-  ('register_assignments -> register_assignment','register_assignments',1,'p_register_assignments','parse.py',133),
-  ('register_assignment -> REG ASSIGN NUMBER','register_assignment',3,'p_register_assignment','parse.py',143),
-  ('instruction_section -> INSTRUCTIONS instructions','instruction_section',2,'p_instruction_section','parse.py',150),
-  ('instructions -> instructions instruction','instructions',2,'p_instructions','parse.py',157),
-  ('instructions -> instruction','instructions',1,'p_instructions','parse.py',158),
-  ('instruction -> INST instruction_args','instruction',2,'p_instruction','parse.py',168),
-  ('instruction_args -> instruction_args COMMA instruction_arg','instruction_args',3,'p_instruction_args','parse.py',175),
-  ('instruction_args -> instruction_arg','instruction_args',1,'p_instruction_args','parse.py',176),
-  ('instruction_arg -> REG','instruction_arg',1,'p_instruction_arg','parse.py',186),
-  ('instruction_arg -> LBRACKET REG COMMA IMM RBRACKET','instruction_arg',5,'p_instruction_arg','parse.py',187),
-  ('instruction_arg -> IMM','instruction_arg',1,'p_instruction_arg','parse.py',188),
+  ('program -> memory_section register_section instruction_section','program',3,'p_program','parser.py',95),
+  ('memory_section -> MEMORY memory_assignments','memory_section',2,'p_memory_section','parser.py',102),
+  ('memory_section -> MEMORY','memory_section',1,'p_memory_section','parser.py',103),
+  ('memory_assignments -> memory_assignments memory_assignment','memory_assignments',2,'p_memory_assignments','parser.py',113),
+  ('memory_assignments -> memory_assignment','memory_assignments',1,'p_memory_assignments','parser.py',114),
+  ('memory_assignment -> M LBRACKET NUMBER RBRACKET ASSIGN NUMBER','memory_assignment',6,'p_memory_assignment','parser.py',124),
+  ('register_section -> REGISTERS register_assignments','register_section',2,'p_register_section','parser.py',131),
+  ('register_section -> REGISTERS','register_section',1,'p_register_section','parser.py',132),
+  ('register_assignments -> register_assignments register_assignment','register_assignments',2,'p_register_assignments','parser.py',142),
+  ('register_assignments -> register_assignment','register_assignments',1,'p_register_assignments','parser.py',143),
+  ('register_assignment -> REG ASSIGN NUMBER','register_assignment',3,'p_register_assignment','parser.py',153),
+  ('instruction_section -> INSTRUCTIONS instructions','instruction_section',2,'p_instruction_section','parser.py',160),
+  ('instructions -> instructions instruction','instructions',2,'p_instructions','parser.py',167),
+  ('instructions -> instruction','instructions',1,'p_instructions','parser.py',168),
+  ('instruction -> INST instruction_args','instruction',2,'p_instruction','parser.py',178),
+  ('instruction_args -> instruction_args COMMA instruction_arg','instruction_args',3,'p_instruction_args','parser.py',185),
+  ('instruction_args -> instruction_arg','instruction_args',1,'p_instruction_args','parser.py',186),
+  ('instruction_arg -> REG','instruction_arg',1,'p_instruction_arg','parser.py',196),
+  ('instruction_arg -> LBRACKET REG COMMA IMM RBRACKET','instruction_arg',5,'p_instruction_arg','parser.py',197),
+  ('instruction_arg -> IMM','instruction_arg',1,'p_instruction_arg','parser.py',198),
 ]

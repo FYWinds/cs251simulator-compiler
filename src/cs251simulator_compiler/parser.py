@@ -100,8 +100,12 @@ def p_program(p):
 def p_memory_section(p):
     """
     memory_section : MEMORY memory_assignments
+                   | MEMORY
     """
-    p[0] = ("memory_section", p[2])
+    if len(p) == 3:
+        p[0] = ("memory_section", p[2])
+    else:
+        p[0] = ("memory_section", [])
 
 
 def p_memory_assignments(p):
@@ -125,8 +129,12 @@ def p_memory_assignment(p):
 def p_register_section(p):
     """
     register_section : REGISTERS register_assignments
+                     | REGISTERS
     """
-    p[0] = ("register_section", p[2])
+    if len(p) == 3:
+        p[0] = ("register_section", p[2])
+    else:
+        p[0] = ("register_section", [])
 
 
 def p_register_assignments(p):
