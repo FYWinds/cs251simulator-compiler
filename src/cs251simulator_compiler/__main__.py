@@ -2,7 +2,7 @@
 Author       : FYWinds i@windis.cn
 Date         : 2025-01-10 18:28:09
 LastEditors  : FYWinds i@windis.cn
-LastEditTime : 2025-01-10 19:25:50
+LastEditTime : 2025-01-10 20:09:36
 FilePath     : /cs251simulator-compiler/src/cs251simulator_compiler/__main__.py
 """
 
@@ -62,7 +62,7 @@ def compile(
 
     memory = {}
     registers = {}
-    instructions = {}
+    instructions = []
 
     for item in ast:
         if isinstance(item, tuple):
@@ -77,23 +77,25 @@ def compile(
                             registers[reg] = v
                 case "instruction_section":
                     for _, op, args in item[1]:
+                        op = op_map[op]
                         match len(args):
                             case 3:
-                                instructions[op] = args
+                                instructions.append({op: args})
                             case 2:
-                                if op in {"LDUR", "STUR"}:
+                                if op in {"Load", "Store"}:
                                     reg: int = args[0]  # type: ignore
                                     _, mem_reg, mem_offset = args[1]
-                                    instructions[op] = [reg, [mem_reg, mem_offset]]
+                                    instructions.append(
+                                        {op: [reg, [mem_reg, mem_offset]]}
+                                    )
                                 else:
-                                    instructions[op] = args
+                                    instructions.append({op: args})
                             case 1:
-                                instructions[op] = args[0]
-
+                                instructions.append({op: args[0]})
     output = {
         "registers": {"registers": [registers.get(i, 0) for i in range(31)], "pc": pc},
         "memory": {"memory": memory},
-        "instructions": [{op_map[inst]: args} for inst, args in instructions.items()],
+        "instructions": instructions,
     }
     with open(out, "w") as f:
         json.dump(output, f, indent=2)
